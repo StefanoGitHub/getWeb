@@ -1,0 +1,58 @@
+#from https://github.com/github/gitignore
+
+#-----------------------------------------
+# MAC OSX system files
+#-----------------------------------------
+
+*.*_
+*copy.php
+
+.DS_Store
+.AppleDouble
+.DS_Store?
+.LSOverride
+.Trashes
+
+# PHPStorm project files#
+/.idea/
+
+
+# Icon must end with two \r #
+Icon
+
+
+# Thumbnails
+._*
+ehthumbs.db
+Thumbs.db
+
+# Files that might appear in the root of a volume #
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.VolumeIcon.icns
+
+# Directories potentially created on remote AFP share #
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Packages #
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+**/node_modules/
+
+# Logs and databases #
+*.log
+*.sql
+*.sqlite
+*.db
