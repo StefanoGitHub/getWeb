@@ -1,0 +1,194 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* -----------------------------------------
+   Blog
+----------------------------------------- */
+body {
+    background-image: url('../images/bgd_pattern_10.gif');
+}
+
+.blog .utente-standard {
+    display: none;
+}
+
+.blog.home #main-content .list-article {
+    margin: 0 0 36px 0;
+    -moz-box-shadow: 0px 0px 3px 1px #ccc;
+    -webkit-box-shadow: 0px 0px 3px 1px #ccc;
+    box-shadow: 0px 0px 3px 1px #ccc;
+}
+
+.blog.home #main-content .list-article .article-wrapper {
+    margin-bottom: 0;
+}
+
+.blog.home #main-content .list-article article {
+    position: relative;
+    padding: 0 !important;
+    box-shadow: none;
+}
+
+.blog.home #main-content .list-article article header {
+    padding: 0;
+    margin: 0;
+}
+
+.blog.home #main-content .list-article article a figure {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    background-color: #ccc;
+    padding-top: 75%;
+}
+
+.blog.home #main-content .list-article article a figure img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.blog.home #main-content .list-article article a figure span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.blog.home #main-content .list-article article .title {
+    background: none !important;
+    display: inline;
+    height: 20%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+}
+
+.blog.home #main-content .list-article article .title .kicker {
+    color: #fff;
+    width: 100%;
+}
+
+.blog.home #main-content .list-article article a:hover figure span {
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.blog.home #main-content .list-article article a:hover .title h3 {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.blog.home #main-content .list-article article a h3 {
+    color: #fff;
+}
+
+.blog.home #main-content .list-article article .content, .blog.home #main-content .list-article article footer {
+    display: none;
+}
+
+/* -----------------------------------------
+   Aside
+----------------------------------------- */
+.blog aside .utente {
+    width: 100%;
+    display: block;
+    float: left;
+    margin: 18px 0 36px;
+}
+
+.blog aside .utente h3 {
+    text-transform: uppercase;
+    font-size: 36px;
+    font-style: normal;
+    letter-spacing: 0.05em;
+    font-weight: bold;
+    color: #666;
+    margin: 5px 0 0;
+    padding: 0 15px;
+    line-height: 32px;
+}
+
+.blog aside .utente p {
+    display: block;
+    font-style: normal;
+    padding: 0 15px;
+    margin: 0;
+}
+
+/* -----------------------------------------
+   visualizzazione interna
+----------------------------------------- */
+.blog.interna #main-content article footer {
+    display: block;
+}
+
+/* -----------------------------------------
+   visualizzazione archive
+----------------------------------------- */
+.blog.archive #main-content .list-article .article-wrapper {
+    width: 50%;
+    float: left;
+}
+
+.blog.archive #main-content .list-article .article-wrapper:nth-child(odd) {
+    padding-right: 18px;
+    clear: left;
+}
+
+.blog.archive #main-content .list-article .article-wrapper:nth-child(even) {
+    padding-left: 18px;
+}
+
+.blog.archive #main-content .page-nav {
+    float: left;
+}
+
+@media only screen and (max-width: 1023px) {
+    .blog aside .utente {
+        display: none;
+    }
+
+    .blog .utente-standard {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 478px) {
+    .blog.interna #main-content .article-wrapper article header, .blog.archive #main-content .list-article .article-wrapper article header {
+        padding: 0 !important;
+    }
+
+    .blog.interna #main-content .article-wrapper article header figure, .blog.archive #main-content .list-article .article-wrapper article header figure {
+        margin: 0 !important;
+    }
+
+    .blog.interna #main-content .article-wrapper article header .title, .blog.archive #main-content .list-article .article-wrapper article header .title {
+        padding-left: 18px;
+    }
+
+    .blog.archive #main-content .list-article .article-wrapper article .content {
+        padding-top: 78px;
+    }
+
+    .blog.archive #main-content .list-article .article-wrapper article header .title {
+        margin-top: 0;
+    }
+
+    .blog.archive #main-content .list-article .article-wrapper {
+        width: 100%;
+    }
+
+    .blog.archive #main-content .list-article .article-wrapper:nth-child(odd) {
+        padding-right: 0;
+    }
+
+    .blog.archive #main-content .list-article .article-wrapper:nth-child(even) {
+        padding-left: 0;
+    }
+}

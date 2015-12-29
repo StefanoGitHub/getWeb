@@ -59,6 +59,10 @@ echo '
         <html>
 
             <body>
+                <a href="http://www.deejay.it/audio/?reloaded=deejay-chiama-italia" target="_blank">Reloaded DJCI</a>
+
+                <br>
+                <br>
 
                 <form action="' . THIS_PAGE . '" method="post"> 
 
@@ -107,4 +111,3 @@ if (isset($_POST['submit']))
 
 echo  '</body>
       </html>';
-?>
