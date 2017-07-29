@@ -39,6 +39,8 @@ function get_links($list) {
     echo '<br>-- - --<br>';
 }
 
+$url = (isset($_POST['submit'])) ? $_POST['url'] : "";
+
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +65,7 @@ function get_links($list) {
     <a class="djci" href="http://www.deejay.it/audio/?reloaded=deejay-chiama-italia" target="_blank">DJCI Reloaded</a>
 
     <form action="<?= THIS_PAGE ?>" method="post">
-        Page: <input size="30" type="text" name="url">
+        Page: <input size="30" type="text" name="url" value="<?= $url ?>">
         <input type="submit" name="submit" value="Submit"/>
     </form>
     <br>
@@ -71,8 +73,8 @@ function get_links($list) {
 
 <div class="output">
     <?php
-    if (isset($_POST['submit'])) {
-        $page = get_web_page($_POST['url']);
+    if (!empty($url)) {
+        $page = get_web_page($url);
 
         //process first kind of links
         preg_match_all('/http.*\/audio\/[0-9]{8}.[0-9]{1}\/[0-9]{6}\//', $page, $matches);
