@@ -51,12 +51,19 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : "";
 
     <style>
         body { font: 1em "Menlo"; text-align: center; }
-        .box, .output { width: 60%; max-width: 500px; min-width: 330px; margin: 2em auto 0; }
+        .box, .output { width: 60%; max-width: 500px; min-width: 330px; margin: 1em auto 0; }
         .output { font-size: .8em; }
-        form { margin: 2em auto 0; }
+        form { margin: 1em auto 0; }
         p { line-height: .9em; }
-        a.djci { margin: 1em auto; color: black; text-decoration: none; padding: 5px 10px;
-          border: 1px solid dimgrey; background: #e1e1e1; border-radius: 3px; }
+        a.djci { 
+            margin: 1em auto; 
+            color: black; 
+            text-decoration: none; 
+            padding: 5px 10px; 
+            border: 1px solid dimgrey; 
+            background: #e1e1e1; 
+            border-radius: 3px; 
+        }
         a.djci:hover { color: dimgray; }
     </style>
 </head>
@@ -71,8 +78,9 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : "";
     <br>
 </div>
 
-<div class="output">
+<div class="output" style="width:50%; height:100%; float:left;">
     <?php
+    // output links
     if (!empty($url)) {
         $page = get_web_page($url);
 
@@ -83,6 +91,18 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : "";
         //process second kind of links
         preg_match_all('/http.*\/audio\/[0-9]{8}\/[0-9]{6}\//', $page, $matches);
         get_links($matches);
+    }
+    ?>
+</div>
+<div>
+    <?php
+    // display url page
+    if (!empty($url)) {
+        echo '
+            <iframe src="' . $url. '" title="DJCI" style="width:50%; height:500px; float:right; border: none;">
+                <p>Your browser does not support iframes.</p>
+            </iframe>
+        ';
     }
     ?>
 </div>
