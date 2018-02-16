@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# make sure this script is executable:
+# cd into this folder and run `chmod 744 djci`
+
+# open the browser
+open http://127.0.0.1:6001
+
+# run app
+php -S 127.0.0.1:6001 -t ~/MyLocalServer/getWeb
+
+echo "DJCI ready at <http://127.0.0.1:6001>..."
