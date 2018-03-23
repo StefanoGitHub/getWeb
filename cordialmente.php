@@ -41,8 +41,7 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : '';
     <body>
     <div class="box">
 
-        <a class="djci" href="http://www.deejay.it/audio/?reloaded=deejay-chiama-italia" target="_blank">DJCI
-            Reloaded</a>
+        <a class="djci" href="https://www.deejay.it/audio/?reloaded=cordialmente" target="_blank">Cordialmente</a>
 
         <form action="<?= THIS_PAGE ?>" method="post">
             Page: <input size="30" type="text" name="url" value="<?= $url ?>">
@@ -74,10 +73,16 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : '';
             }
 
             $page = get_web_page($url);
+            $page = str_ireplace("\n", ' ', $page);
+            $page = str_ireplace("\r", ' ', $page);
+            $page = str_ireplace("\t", ' ', $page);
 
             // process first kind of links
-            preg_match_all('/http.*\/audio\/[0-9]{8}.[0-9]{1}\/[0-9]{6}\//', $page, $matches);
-            process_links($matches);
+            //            preg_match_all('/http.*\/audio\/[0-9]{8}.[0-9]{1}\/[0-9]{6}\//', $page, $matches);
+            preg_match_all('/<span><a href="https:\/\/www\.deejay\.it\/audio\/[0-9]{8}.[0-9]+\/[0-9]{6}\/"/', $page,
+                $matches);
+
+            process_links($matches[0]);
 
             // process second kind of links, if any
             preg_match_all('/http.*\/audio\/[0-9]{8}\/[0-9]{6}\//', $page, $matches);
@@ -113,26 +118,28 @@ function get_web_page($url)
     return $content;
 }
 
-function process_links($list)
+function process_links($links)
 {
-    $links = $list[0];
+    foreach ($links as $link) {
+        $link = explode('<span><a href="', $link)[1];
+        $link = str_ireplace('"', '', $link);
 
-    foreach ($links as $i => $link) {
-        if ($i % 2 > 0) {
-            continue;
-        }
+        $page = get_web_page($link);
+        $page = str_ireplace("\n", ' ', $page);
+        $page = str_ireplace("\r", ' ', $page);
+        $page = str_ireplace("\t", ' ', $page);
 
-        $page = get_web_page($links[$i]);
+        // 'https://cdn.flv.kataweb.it/deejay/audio/cordialmente/20170306.mp3'
+
         preg_match('/file=http.*mp3/', $page, $match);
-        preg_match('/http.*mp3/', $match[0], $targetUrl);
+        $srcFile = explode('file=', $match[0])[1];
 
-        $filename = str_replace('http://flv.kataweb.it/deejay/audio/deejay_chiama_italia/', '', $targetUrl[0]);
+        $filename = end(explode('/', $srcFile));
         $filename = substr_replace($filename, '-', 6, 0);
         $filename = substr_replace($filename, '-', 4, 0);
-        $filename = 'djci-' . $filename;
+        $filename = 'cord-' . $filename;
 
-        $srcFile = explode('file=', $match[0])[1];
-        $dir = '/Users/Stefano/Desktop/DJCI';
+        $dir = '/Users/Stefano/Desktop/DJCI/cordialmente';
         $dstfile = $dir . '/' . $filename;
 
         if (!file_exists($dir)) {
@@ -140,7 +147,7 @@ function process_links($list)
         }
 
         echo '<p>';
-        echo 'File ' . ($i / 2 + 1) . ' - <a href="' . $targetUrl[0] . '" download>' . $filename . '</a> ';
+        echo 'File ' . $filename . ' - <a href="' . $srcFile . '" download>' . $filename . '</a> ';
 
         set_time_limit(90);
         if (@copy($srcFile, $dstfile)) {

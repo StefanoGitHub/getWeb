@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# https://www.macobserver.com/tmo/article/os-x-how-to-convert-a-terminal-command-into-a-double-clickable-desktop-file
 # make sure this script is executable:
 # cd into this folder and run `chmod 744 djci`
 
@@ -8,5 +9,3 @@ open http://127.0.0.1:6001
 
 # run app
 php -S 127.0.0.1:6001 -t ~/MyLocalServer/getWeb
-
-echo "DJCI ready at <http://127.0.0.1:6001>..."

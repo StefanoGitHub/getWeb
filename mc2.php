@@ -2,15 +2,16 @@
 
 define("THIS_PAGE", basename($_SERVER['PHP_SELF']));
 
-function get_web_page($url) {
+function get_web_page($url)
+{
     $options = [
-        CURLOPT_RETURNTRANSFER => TRUE,   // return web page
-        CURLOPT_HEADER => FALSE,          // don't return headers
-        CURLOPT_FOLLOWLOCATION => FALSE,  // follow redirects
+        CURLOPT_RETURNTRANSFER => true,   // return web page
+        CURLOPT_HEADER => false,          // don't return headers
+        CURLOPT_FOLLOWLOCATION => false,  // follow redirects
         CURLOPT_MAXREDIRS => 10,          // stop after 10 redirects
         CURLOPT_ENCODING => "",           // handle compressed
         CURLOPT_USERAGENT => "test",      // name of client
-        CURLOPT_AUTOREFERER => TRUE,      // set referrer on redirect
+        CURLOPT_AUTOREFERER => true,      // set referrer on redirect
         CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
         CURLOPT_TIMEOUT => 120,           // time-out on response
     ];
@@ -23,7 +24,8 @@ function get_web_page($url) {
     return $content;
 }
 
-function get_links($list) {
+function get_links($list)
+{
     $links = $list[0];
 
     foreach ($links as $i => $link) {
@@ -41,7 +43,7 @@ function get_links($list) {
         $dstfile = $dir . '/' . $filename;
 
         if (!file_exists($dir)) {
-            mkdir($dir, 0777, TRUE);
+            mkdir($dir, 0777, true);
         }
 
         if (!@copy($srcFile, $dstfile)) {
@@ -72,14 +74,14 @@ $url = 'https://www.deejay.it/audio/?reloaded=mc2';
         .output { font-size: .8em; }
         form { margin: 1em auto 0; }
         p { line-height: .9em; }
-        a.djci { 
-            margin: 1em auto; 
-            color: black; 
-            text-decoration: none; 
-            padding: 5px 10px; 
-            border: 1px solid dimgrey; 
-            background: #e1e1e1; 
-            border-radius: 3px; 
+        a.djci {
+            margin: 1em auto;
+            color: black;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid dimgrey;
+            background: #e1e1e1;
+            border-radius: 3px;
         }
         a.djci:hover { color: dimgray; }
     </style>
