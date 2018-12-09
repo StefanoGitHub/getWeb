@@ -27,7 +27,8 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : '';
             form { margin: 1em auto 0; }
             p { line-height: .9em; }
             a.djci {
-                margin: 1em auto;
+                display: inline-block;
+                margin: 0 auto 1em;
                 color: black;
                 text-decoration: none;
                 padding: 5px 10px;
@@ -36,6 +37,7 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : '';
                 border-radius: 3px;
             }
             a.djci:hover { color: dimgray; }
+            code { font-size: .8em; }
         </style>
     </head>
     <body>
@@ -43,6 +45,8 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : '';
 
         <a class="djci" href="http://www.deejay.it/audio/?reloaded=deejay-chiama-italia" target="_blank">DJCI
             Reloaded</a>
+
+            <code>https://media.deejay.it/legacy/audio/deejay_chiama_italia/[yyyymmdd].mp3</code>
 
         <form action="<?= THIS_PAGE ?>" method="post">
             Page: <input size="30" type="text" name="url" value="<?= $url ?>">
@@ -126,7 +130,7 @@ function process_links($list)
         preg_match('/file=http.*mp3/', $page, $match);
         preg_match('/http.*mp3/', $match[0], $targetUrl);
 
-        $filename = str_replace('http://flv.kataweb.it/deejay/audio/deejay_chiama_italia/', '', $targetUrl[0]);
+        $filename = str_replace('https://media.deejay.it/legacy/audio/deejay_chiama_italia/', '', $targetUrl[0]);
         $filename = substr_replace($filename, '-', 6, 0);
         $filename = substr_replace($filename, '-', 4, 0);
         $filename = 'djci-' . $filename;
