@@ -43,13 +43,13 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : '';
     <body>
     <div class="box">
 
-        <a class="djci" href="http://www.deejay.it/audio/?reloaded=deejay-chiama-italia" target="_blank">DJCI
+        <a class="djci" href="https://www.deejay.it/programmi/deejay-chiama-italia/puntate" target="_blank">DJCI
             Reloaded</a>
 
-            <code>https://media.deejay.it/legacy/audio/deejay_chiama_italia/[yyyymmdd].mp3</code>
-
         <form action="<?= THIS_PAGE ?>" method="post">
-            Page: <input size="30" type="text" name="url" value="<?= $url ?>">
+            Page:
+            <input size="70" type="text" name="url"
+                   value="<?= $url ? $url : 'https://www.deejay.it/programmi/deejay-chiama-italia/puntate/page/1' ?>">
             <input type="submit" name="submit" value="Submit"/>
         </form>
         <br>
@@ -80,7 +80,11 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : '';
             $page = get_web_page($url);
 
             // process first kind of links
-            preg_match_all('/http.*\/audio\/[0-9]{8}.[0-9]{1}\/[0-9]{6}\//', $page, $matches);
+            preg_match_all(
+                    '/https:\/\/www.deejay.it\/programmi\/deejay-chiama-italia\/puntate\/deejay-chiama-italia-del-[0-9]{2}-[0-9]{2}-[0-9]{4}/',
+                $page,
+                $matches
+            );
             process_links($matches);
 
             // process second kind of links, if any
@@ -100,13 +104,14 @@ function get_web_page($url)
     $options = [
         CURLOPT_RETURNTRANSFER => true,   // return web page
         CURLOPT_HEADER => false,          // don't return headers
-        CURLOPT_FOLLOWLOCATION => false,  // follow redirects
+        CURLOPT_FOLLOWLOCATION => true,   // follow redirects
         CURLOPT_MAXREDIRS => 10,          // stop after 10 redirects
         CURLOPT_ENCODING => '',           // handle compressed
-        CURLOPT_USERAGENT => 'test',      // name of client
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36', // name of client
         CURLOPT_AUTOREFERER => true,      // set referrer on redirect
         CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
         CURLOPT_TIMEOUT => 120,           // time-out on response
+        // CURLOPT_VERBOSE => true,
     ];
 
     $ch = curl_init($url);
