@@ -1,11 +1,11 @@
 <?php
 define('THIS_PAGE', basename($_SERVER['PHP_SELF']));
 
-$url = (isset($_POST['submit'])) ? $_POST['url'] : '';
-// $url = $argv[1]; // for debug
+$isDebug = filter_var($argv[1], FILTER_VALIDATE_BOOLEAN); // when run via PHPStorm
+$submittedUrl = isset($_POST['submit']) ? $_POST['url'] : '';
+$url = $isDebug ? $argv[2] : $submittedUrl;
 
 ?>
-
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -81,15 +81,16 @@ $url = (isset($_POST['submit'])) ? $_POST['url'] : '';
 
             // process first kind of links
             preg_match_all(
-                    '/https:\/\/www.deejay.it\/programmi\/deejay-chiama-italia\/puntate\/deejay-chiama-italia-del-[0-9]{2}-[0-9]{2}-[0-9]{4}/',
+                '/https:\/\/www.deejay.it\/programmi\/deejay-chiama-italia\/puntate\/deejay-chiama-italia-del-[0-9]{2}-[0-9]{2}-[0-9]{4}/',
                 $page,
                 $matches
             );
-            process_links($matches);
+            // $matches ~ https://www.deejay.it/programmi/deejay-chiama-italia/puntate/deejay-chiama-italia-del-26-06-2019
+            process_links($matches[0]);
 
             // process second kind of links, if any
             preg_match_all('/http.*\/audio\/[0-9]{8}\/[0-9]{6}\//', $page, $matches);
-            process_links($matches);
+            process_links($matches[0]);
         }
 
         ?>
@@ -122,37 +123,57 @@ function get_web_page($url)
     return $content;
 }
 
-function process_links($list)
+function process_links($links)
 {
-    $links = $list[0];
+    $processedAlready = [];
+    $downloaded = [];
 
-    foreach ($links as $i => $link) {
-        if ($i % 2 > 0) {
+    foreach ($links as $link) {
+        $page = get_web_page($link);
+        preg_match('/file=http.*mp3/', $page, $match);
+
+        if (isset($processedAlready[$link])) {
             continue;
         }
 
-        $page = get_web_page($links[$i]);
-        preg_match('/file=http.*mp3/', $page, $match);
+        $processedAlready[$link] = true;
+
+        if (empty($match)) {
+            echo "No files found at $link<br>";
+            continue;
+        }
+
         preg_match('/http.*mp3/', $match[0], $targetUrl);
 
-        $filename = str_replace('https://media.deejay.it/legacy/audio/deejay_chiama_italia/', '', $targetUrl[0]);
+        $srcFile = $targetUrl[0];
+
+        if (isset($downloaded[$srcFile])) {
+            continue;
+        }
+
+        $pieces = explode('/', $srcFile);
+        $filename = end($pieces);
         $filename = substr_replace($filename, '-', 6, 0);
         $filename = substr_replace($filename, '-', 4, 0);
         $filename = 'djci-' . $filename;
 
-        $srcFile = explode('file=', $match[0])[1];
         $dir = '/Users/Stefano/Desktop/DJCI';
-        $dstfile = $dir . '/' . $filename;
-
         if (!file_exists($dir)) {
             mkdir($dir, 0777);
         }
 
+        $dstfile = $dir . '/' . $filename;
+        if (file_exists($dstfile)) {
+            echo "<a href=\"$srcFile\">$filename</a> already downloaded.<br>";
+            continue;
+        }
+
         echo '<p>';
-        echo 'File ' . ($i / 2 + 1) . ' - <a href="' . $targetUrl[0] . '" download>' . $filename . '</a> ';
+        echo '<a href="' . $srcFile . '">' . $filename . '</a> ';
 
         set_time_limit(90);
         if (@copy($srcFile, $dstfile)) {
+            $downloaded[$srcFile] = true;
             echo ' downloaded.';
         } else {
             $errors = error_get_last();
