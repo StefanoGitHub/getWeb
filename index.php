@@ -1,7 +1,7 @@
 <?php
 define('THIS_PAGE', basename($_SERVER['PHP_SELF']));
 
-$isDebug = filter_var($argv[1], FILTER_VALIDATE_BOOLEAN); // when run via PHPStorm
+$isDebug = isset($argv) ? filter_var($argv[1], FILTER_VALIDATE_BOOLEAN) : false; // when run via PHPStorm
 $submittedUrl = isset($_POST['submit']) ? $_POST['url'] : '';
 $url = $isDebug ? $argv[2] : $submittedUrl;
 
